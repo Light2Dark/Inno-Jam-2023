@@ -18,6 +18,9 @@ headers = {
     'Accept': 'application/json'
 }
 
+def get_headers():
+    return headers
+
 # Location of Mobility as a Service (MaaS) Cyberjay with ride-pooling transportation (kumpool) and shared escooter service (TRYKE)
 # res = requests.get('https://api.oip.tmrnd.com.my/t/datahub.oip.tmrnd.com.my/MaaS-Cyberjaya/1.0.0/1680015862264/kumpool/data?start=1&limit=100&sort=stopname%20asc&filter=stopname%3ACyberjaya*', headers=headers)
 
@@ -46,119 +49,8 @@ def write_data(filename: str, response):
         f.write(response.text)
         
 
-def extract_cyberview_bus_stops():
-    res = requests.get("https://api.oip.tmrnd.com.my/t/datahub.oip.tmrnd.com.my/Cyberview-BusStop/1.0.0/2399804818698/data?limit=200", headers=headers)
-    write_data("cyberview_bus_stops.json", res)
-    
-    df = pd.DataFrame()
-    
-    data = res.json()
-    locations = data["docs"]
-    
-    for location in locations:
-        new_df = pd.DataFrame({
-            "street_name": [location["NamaJalan"]],
-            "address": [location["Alamat"]],
-            "point_of_interest": [location["POI"]],
-            "latitude": [location["Latitude"]],
-            "longitude": [location["Longitude"]],
-            "additional_info": [location["Notes"]]
-        })
-        df = pd.concat([df, new_df])
-        
-    df.to_csv("cyberview_bus_stops.csv", index=False)
-    
-def extract_kumpool():
-    def extract():
-        limit = 200
-        returned = 10000
-        counter = 0
-        
-        df = pd.DataFrame()
-        
-        while returned >= 200:
-            request = f"https://api.oip.tmrnd.com.my/t/cyberview.com.my/kumpool/1.0.0/2074418464416/data?start={counter * 200}&limit={limit}"
-            res = requests.get(request, headers=headers)
-            print(request, res.status_code)
-            
-            retries = 0
-            while res.status_code != 200:
-                print("Retrying...")
-                retries += 1
-                res = requests.get(request, headers=headers)
-                time.sleep(retries * 2)
-                print(request, res.status_code)
-            
-            counter += 1
 
-            data = res.json()
-            rides = data["docs"]
-            returned = data["returned"]
-            df = pd.DataFrame()
-            
-            for ride in rides:
-                new_df = pd.DataFrame({
-                    "datetime": [ride["Date"]],
-                    "from_stop": [ride["FromStop"]],
-                    "to_stop": [ride["ToStop"]],
-                    "riders": [ride["Riders"]],
-                    "total_km": [ride["TotalKM"]],
-                    "order_type": [ride["OrderType"]],
-                })
-                df = pd.concat([df, new_df])
-            df.to_csv("kumpool.csv", mode="a", header=False, index=False)
-            
-    extract()
-    # res = requests.get("https://api.oip.tmrnd.com.my/t/cyberview.com.my/kumpool/1.0.0/2074418464416/data?start=13200&limit=200", headers=headers)
-    # print(res.json()['docs'])
-    
-def extract_tryke():
-    def extract():
-        limit = 200
-        returned = 10000
-        counter = 0
-        
-        df = pd.DataFrame()
-        
-        while returned >= 200:
-            request = f"https://api.oip.tmrnd.com.my/t/cyberview.com.my/tryke/1.0.0/2424560862581/data?start={counter * 200}&limit={limit}"
-            res = requests.get(request, headers=headers)
-            print(request, res.status_code)
-            
-            retries = 0
-            while res.status_code != 200:
-                print("Retrying...")
-                retries += 1
-                res = requests.get(request, headers=headers)
-                time.sleep(retries * 2)
-                print(request, res.status_code)
-            
-            counter += 1
 
-            data = res.json()
-            rides = data["docs"]
-            returned = data["returned"]
-            df = pd.DataFrame()
-            
-            for ride in rides:
-                new_df = pd.DataFrame({
-                    "IMEI": [ride["IMEI"]],
-                    "user_location_on_booking_latitude": [ride["userLocationAtBookingLat"]],
-                    "user_location_on_booking_longitude": [ride["userLocationAtBookingLong"]],
-                    "user_location_on_dropoff_latitude": [ride["userLocationAtDropOffLat"]],
-                    "use_location_on_dropoff_longitude": [ride["userLocationAtDropOffLong"]],
-                    "pickup_date": [ride["pickUpDate"]],
-                    "pickup_time": [ride["pickUpTime"]],
-                    "total_duration": [ride["totalDuration"]],
-                    "dropoff_date": [ride["dropOffDate"]],
-                    "dropoff_time": [ride["dropOffTime"]],
-                })
-                df = pd.concat([df, new_df])
-            df.to_csv("tryke.csv", mode="a", header=False, index=False)
-            
-    extract()
-    
-    
 def extract_traffic():
     def extract():
         limit = 200
@@ -203,5 +95,5 @@ if __name__ == "__main__":
     # extract_cyberview_bus_stops()
     # extract_kumpool()
     # extract_tryke()
-    extract_traffic()
+    # extract_traffic()
     pass
