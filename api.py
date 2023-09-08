@@ -142,22 +142,66 @@ def extract_tryke():
             
             for ride in rides:
                 new_df = pd.DataFrame({
-                    "datetime": [ride["Date"]],
-                    "from_stop": [ride["FromStop"]],
-                    "to_stop": [ride["ToStop"]],
-                    "riders": [ride["Riders"]],
-                    "total_km": [ride["TotalKM"]],
-                    "order_type": [ride["OrderType"]],
+                    "IMEI": [ride["IMEI"]],
+                    "user_location_on_booking_latitude": [ride["userLocationAtBookingLat"]],
+                    "user_location_on_booking_longitude": [ride["userLocationAtBookingLong"]],
+                    "user_location_on_dropoff_latitude": [ride["userLocationAtDropOffLat"]],
+                    "use_location_on_dropoff_longitude": [ride["userLocationAtDropOffLong"]],
+                    "pickup_date": [ride["pickUpDate"]],
+                    "pickup_time": [ride["pickUpTime"]],
+                    "total_duration": [ride["totalDuration"]],
+                    "dropoff_date": [ride["dropOffDate"]],
+                    "dropoff_time": [ride["dropOffTime"]],
                 })
                 df = pd.concat([df, new_df])
             df.to_csv("tryke.csv", mode="a", header=False, index=False)
             
     extract()
-    # res = requests.get("https://api.oip.tmrnd.com.my/t/cyberview.com.my/kumpool/1.0.0/2074418464416/data?start=13200&limit=200", headers=headers)
-    # print(res.json()['docs'])
+    
+    
+def extract_traffic():
+    def extract():
+        limit = 200
+        returned = 10000
+        counter = 0
+        
+        df = pd.DataFrame()
+        
+        while returned >= 200:
+            request = f"https://api.oip.tmrnd.com.my/t/cyberview.com.my/traffic/1.0.0/1737658701995/data?start={counter * 200}&limit={limit}"
+            res = requests.get(request, headers=headers)
+            print(request, res.status_code)
+            
+            retries = 0
+            while res.status_code != 200:
+                print("Retrying...")
+                retries += 1
+                res = requests.get(request, headers=headers)
+                time.sleep(retries * 2)
+                print(request, res.status_code)
+            
+            counter += 1
+
+            data = res.json()
+            rides = data["docs"]
+            returned = data["returned"]
+            df = pd.DataFrame()
+            
+            for ride in rides:
+                new_df = pd.DataFrame({
+                    "datetime": [ride["time"]],
+                    "location": [ride["location"]],
+                    "num_cars": [ride["car"]],
+                })
+                df = pd.concat([df, new_df])
+            df.to_csv("traffic.csv", mode="a", header=False, index=False)
+            
+    extract()
 
 
 if __name__ == "__main__":
     # extract_cyberview_bus_stops()
     # extract_kumpool()
+    # extract_tryke()
+    extract_traffic()
     pass

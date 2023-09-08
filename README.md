@@ -8,3 +8,13 @@ Important: Use minimum of 1 data source from TM APIs, include data source in sol
 
 ## PITCH
 5 minutes pitch, 5 minutes Q&A# Inno-Jam-2023
+
+
+## Hackathon Tips
+1. Your team RACI = Responsiblity, accountability, consulted, informed
+2. Ideator
+3. UI/UX
+4. Tech
+5. Pitcher
+
+- Play a video while setting up in pitch

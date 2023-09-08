@@ -1,0 +1,76 @@
+{
+    "total": 15,
+    "returned": 14,
+    "docs": [
+        {
+            "stopname": "Ceria Residence Cyberjaya (Entrance)",
+            "latitude": "2.91769",
+            "longitude": "101.63425"
+        },
+        {
+            "stopname": "Cyberjaya Hospital",
+            "latitude": "2.92004502951909",
+            "longitude": "101.6319171"
+        },
+        {
+            "stopname": "Cyberjaya Smart School Complex(Bus Stop)",
+            "latitude": "2.91511",
+            "longitude": "101.64841"
+        },
+        {
+            "stopname": "D'Pulze Cyberjaya Bus Stop",
+            "latitude": "2.9217",
+            "longitude": "101.65142"
+        },
+        {
+            "stopname": "McDonald's @ Edusphere Cyberjaya",
+            "latitude": "2.934076027",
+            "longitude": "101.6365569"
+        },
+        {
+            "stopname": "MRT Cyberjaya City Centre Bus Stop",
+            "latitude": "2.93904",
+            "longitude": "101.6659"
+        },
+        {
+            "stopname": "MRT Cyberjaya Utara Station Bus Stop",
+            "latitude": "2.95042784403417",
+            "longitude": "101.656691"
+        },
+        {
+            "stopname": "SK Cyberjaya 1 (Main Entrance)",
+            "latitude": "2.91895",
+            "longitude": "101.63792"
+        },
+        {
+            "stopname": "SMK Cyberjaya",
+            "latitude": "2.91856",
+            "longitude": "101.63986"
+        },
+        {
+            "stopname": "Sports Arena Cyberjaya",
+            "latitude": "2.9271",
+            "longitude": "101.66153"
+        },
+        {
+            "stopname": "Symphony Hills Cyberjaya",
+            "latitude": "2.91585",
+            "longitude": "101.63989"
+        },
+        {
+            "stopname": "Taman Tasik Cyberjaya Roundabout Entranc",
+            "latitude": "2.93452",
+            "longitude": "101.63976"
+        },
+        {
+            "stopname": "The Arc Cyberjaya (Bus Stop)",
+            "latitude": "2.92514",
+            "longitude": "101.63749"
+        },
+        {
+            "stopname": "University of Cyberjaya (UoC)",
+            "latitude": "2.93045",
+            "longitude": "101.6381"
+        }
+    ]
+}
