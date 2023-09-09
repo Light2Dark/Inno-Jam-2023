@@ -62,4 +62,5 @@ def transform():
     df.to_csv("csv_files/transformed/kumpool.csv", index=False)
     
 if __name__ == "__main__":
-    transform()
+    df = pd.read_csv("csv_files/transformed/kumpool.csv")
+    print(df)
